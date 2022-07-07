@@ -43,6 +43,18 @@ headerEl.classList.add('search-bar')
 let formEl=document.createElement('form')
 formEl.id='search-breweries-form'
 formEl.autocomplete='off'
+formEl.addEventListener('submit',function(event){
+    event.preventDefault()
+    let searchname=inputEl.value
+    fetch(`https://api.openbrewerydb.org/breweries?by_name=${searchname}&per_page=10`)
+    .then(response => response.json())
+    .then(breweriesFromServer => {
+        state.breweries=breweriesFromServer
+        render()
+    }
+    )
+
+})
 
 let labelEl=document.createElement('label')
 labelEl.htmlFor='search-breweries'
@@ -62,7 +74,7 @@ mainEl.append(headerEl)
 }
 
 function breweriesByState(){
-    fetch(`https://api.openbrewerydb.org/breweries?by_state=${state.USState}`,{
+    fetch(`https://api.openbrewerydb.org/breweries?by_state=${state.USState}&per_page=10`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -157,8 +169,6 @@ function renderBreweries(){
     mainEl.append(articleEl)
   
 }
-
-
 
 function render(){
     if(!mainEl) return
