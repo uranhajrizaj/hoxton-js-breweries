@@ -46,7 +46,7 @@ formEl.autocomplete='off'
 formEl.addEventListener('submit',function(event){
     event.preventDefault()
     let searchname=inputEl.value
-    fetch(`https://api.openbrewerydb.org/breweries?by_name=${searchname}&per_page=10`)
+    fetch(`https://api.openbrewerydb.org/breweries?by_name=${searchname}&by_state=${state.USState}&per_page=10`)
     .then(response => response.json())
     .then(breweriesFromServer => {
         state.breweries=breweriesFromServer
