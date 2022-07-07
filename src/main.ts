@@ -43,14 +43,7 @@ headerEl.classList.add('search-bar')
 let formEl=document.createElement('form')
 formEl.id='search-breweries-form'
 formEl.autocomplete='off'
-formEl.addEventListener('submit',function(event){
-    event.preventDefault()
-    let searchState=inputEl.value
-    state.USState=searchState
-    breweriesByState()
-    
-}
-)
+
 let labelEl=document.createElement('label')
 labelEl.htmlFor='search-breweries'
 labelEl.textContent='Search breweries:'
@@ -81,8 +74,6 @@ function breweriesByState(){
                  render()
 })
 }
-
-
 
 function renderBreweryListItem(brewery: Brewery, ulEl: HTMLElement){
 
@@ -139,6 +130,18 @@ function renderBreweryListItem(brewery: Brewery, ulEl: HTMLElement){
       pEl2.append(strongEl)
       ulEl.append(liEl)
 }
+function listenToForm(){
+    let formEl=document.querySelector<HTMLFormElement>('#select-state-form')
+    formEl?.addEventListener('submit',function(event){
+        event.preventDefault()
+        let searchState=formEl['select-state'].value
+        state.USState=searchState
+        console.log(state.USState)
+         breweriesByState()
+    }
+    )
+}
+listenToForm()
 
 function renderBreweries(){
     if(!mainEl) return
